@@ -6,8 +6,8 @@ using namespace std;
 
 Mat gammaTransform(Mat &srcImage, float gamma)
 {
-
-	unsigned char LUT[256] = {0};
+	
+	unsigned char LUT[256] = { 0 };
 	for (int i = 0; i < 256; i++)
 	{
 		float f = (float)i / 255;
@@ -17,6 +17,7 @@ Mat gammaTransform(Mat &srcImage, float gamma)
 	Mat resultImage;
 	srcImage.copyTo(resultImage);
 
+	
 	if (srcImage.channels() == 1)
 	{
 		for (int i = 0; i < srcImage.rows; i++)
@@ -42,18 +43,33 @@ Mat gammaTransform(Mat &srcImage, float gamma)
 	}
 	return resultImage;
 }
+
+
+void gamma(int gamma, void*)
+{
+	Mat srcMat = imread("G:\\picture\\5.jpg", 1);
+	Mat dstMat;
+
+	float scale = 100;
+
+	float gamma_1 = gamma / scale;
+
+	
+	dstMat = gammaTransform(srcMat, gamma_1);
+
+	imshow("srcMat", srcMat);
+	imshow("dstMat", dstMat);
+}
+
+
 int main()
 {
-	Mat srcMat = imread("G:/picture/5.jpg", 0);
-	Mat dstMat_1, dstMat_2;
-	float gamma_1 = 0.5;
-	float gamma_2 = 2.0;
+	int minth = 0;
+	int maxth = 50;
 
-	dstMat_1 = gammaTransform(srcMat, gamma_1);
-	dstMat_2 = gammaTransform(srcMat, gamma_2);
-	
-	imshow("srcMat",srcMat);
-	imshow("dstMat_1",dstMat_1);
-	imshow("dstMat_2", dstMat_2);
+				
+	namedWindow("dstMat_1", WINDOW_AUTOSIZE);
+	createTrackbar("gamma", "dstMat_1", &minth, maxth, gamma);
+
 	waitKey(0);
 }

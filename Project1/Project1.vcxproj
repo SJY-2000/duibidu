@@ -115,6 +115,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gamma.cpp" />
+    <ClCompile Include="huitiao_gamma.cpp" />
+    <ClCompile Include="zhaozi.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,7 +7,7 @@ using namespace std;
 Mat gammaTransform(Mat &srcImage, float gamma)
 {
 
-	unsigned char LUT[256] = {0};
+	unsigned char LUT[256] = { 0 };
 	for (int i = 0; i < 256; i++)
 	{
 		float f = (float)i / 255;
@@ -16,6 +16,7 @@ Mat gammaTransform(Mat &srcImage, float gamma)
 	}
 	Mat resultImage;
 	srcImage.copyTo(resultImage);
+
 
 	if (srcImage.channels() == 1)
 	{
@@ -42,18 +43,38 @@ Mat gammaTransform(Mat &srcImage, float gamma)
 	}
 	return resultImage;
 }
+
+Mat equalizeHist_3(Mat srcMat)
+{
+	
+	vector<Mat>channels;
+	split(srcMat, channels);
+
+	
+	equalizeHist(channels.at(0), channels.at(0));
+	equalizeHist(channels.at(1), channels.at(1));
+	equalizeHist(channels.at(2), channels.at(2));
+
+	
+	Mat dstMat;
+	srcMat.copyTo(dstMat);
+	merge(channels, dstMat);
+
+	return dstMat;
+}
+
 int main()
 {
-	Mat srcMat = imread("G:/picture/5.jpg", 0);
-	Mat dstMat_1, dstMat_2;
-	float gamma_1 = 0.5;
-	float gamma_2 = 2.0;
-
-	dstMat_1 = gammaTransform(srcMat, gamma_1);
-	dstMat_2 = gammaTransform(srcMat, gamma_2);
+	Mat srcMat = imread("G:\\picture\\6.jpg", 1);
+	Mat dstMat_1;
+	float gamma_1 = 4;
 	
-	imshow("srcMat",srcMat);
-	imshow("dstMat_1",dstMat_1);
-	imshow("dstMat_2", dstMat_2);
+	dstMat_1 = equalizeHist_3(srcMat);
+
+
+	dstMat_1 = gammaTransform(dstMat_1, gamma_1);
+
+	imshow("srcMat", srcMat);
+	imshow("dstMat_1", dstMat_1);
 	waitKey(0);
 }
